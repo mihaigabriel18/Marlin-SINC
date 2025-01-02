@@ -24,7 +24,7 @@ jobs:
       # Reject if more than one file is changed
       - name: Check file change limit
         run: |
-          if [ "$CHANGED_FILES" -gt 1 ]; then
+          if [ $CHANGED_FILES -gt 1 ]; then
             echo "Error: Commit changes more than one file ($CHANGED_FILES files)."
             exit 1
           else
