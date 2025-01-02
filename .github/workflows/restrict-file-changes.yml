@@ -1,0 +1,32 @@
+name: Restrict File Changes
+
+on:
+  push:
+    branches:
+      - main  # Adjust as needed for your default branch
+
+jobs:
+  check-file-changes:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Get the list of changed files
+      - name: Get changed files
+        id: changes
+        run: |
+          # Use git diff-tree to count the number of changed files
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.after }} | wc -l)
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
+
+      # Reject if more than one file is changed
+      - name: Check file change limit
+        run: |
+          if [ "$CHANGED_FILES" -gt 1 ]; then
+            echo "Error: Commit changes more than one file ($CHANGED_FILES files)."
+            exit 1
+          else
+            echo "Commit is valid."
+          fi
