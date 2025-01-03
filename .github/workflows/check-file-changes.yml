@@ -1,0 +1,23 @@
+name: Check File Changes
+
+on:
+  push:
+    branches:
+      - main  # Adjust for your target branch
+
+jobs:
+  check-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set environment variables
+        run: |
+          echo "GITHUB_EVENT_BEFORE=${{ github.event.before }}" >> $GITHUB_ENV
+          echo "GITHUB_EVENT_AFTER=${{ github.event.after }}" >> $GITHUB_ENV
+
+      - name: Run Python script
+        run: |
+          python3 check_file_changes.py
