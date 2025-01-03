@@ -20,4 +20,4 @@ jobs:
 
       - name: Run Python script
         run: |
-          python3 .github/workflows/check_file_changes.py
+          python3 check_file_changes.py
