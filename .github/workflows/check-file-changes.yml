@@ -3,7 +3,7 @@ name: Check File Changes
 on:
   push:
     branches:
-      - main  # Adjust for your target branch
+      - bugfix-2.1.x
 
 jobs:
   check-files:
