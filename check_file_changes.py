@@ -49,7 +49,7 @@ def main():
 
     changed_files = get_changed_files()
 
-    result = test_entry(changed_files, model_file, scaler_file)
+    result = test_entry(len(changed_files), model_file, scaler_file)
 
     print(f"Changed files: {changed_files}")
     if result == "Anomaly" > 1:
@@ -61,3 +61,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
