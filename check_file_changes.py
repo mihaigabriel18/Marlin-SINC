@@ -52,7 +52,7 @@ def main():
     result = test_entry(len(changed_files), model_file, scaler_file)
 
     print(f"Changed files: {changed_files}")
-    if result == "Anomaly" > 1:
+    if result == "Anomaly":
         print("Commit is NOT valid!")
         sys.exit(1)  # Exit with a non-zero code to fail the workflow
     else:
