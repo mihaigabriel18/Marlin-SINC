@@ -2,11 +2,8 @@ import subprocess
 import csv
 
 def get_commit_history(repo_path):
-    """
-    Retrieves the commit history of a repository along with the number of files changed.
-    """
+
     try:
-        # Navigate to the repository path
         result = subprocess.run(
             ["git", "-C", repo_path, "log", "--pretty=format:%H", "--name-only"],
             capture_output=True,
@@ -18,23 +15,20 @@ def get_commit_history(repo_path):
         commits = []
         current_commit = None
 
-        # Parse the output
         for line in output.splitlines():
-            if line.strip() == "":  # New commit separator
+            if line.strip() == "":
                 continue
-            if len(line.strip()) == 40:  # Commit hash
+            if len(line.strip()) == 40:
                 if current_commit:
                     commits.append(current_commit)
                 current_commit = {"hash": line.strip(), "files": []}
-            else:  # File change
+            else:
                 if current_commit:
                     current_commit["files"].append(line.strip())
 
-        # Add the last commit
         if current_commit:
             commits.append(current_commit)
 
-        # Add the number of files changed to each commit
         for commit in commits:
             commit["num_files_changed"] = len(commit["files"])
 
@@ -45,9 +39,6 @@ def get_commit_history(repo_path):
         return []
 
 def save_to_csv(commits, output_file):
-    """
-    Saves the commit data to a CSV file.
-    """
     with open(output_file, mode="w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["hash", "num_files_changed"])
         writer.writeheader()
